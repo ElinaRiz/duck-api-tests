@@ -17,7 +17,7 @@ public class DuckUpdateTest extends BaseTest {
         createDuck(runner, "yellow", 0.05, "rubber", "quack", "ACTIVE");
         saveDuckIdFromResponse(runner);
         duckUpdate(runner, "${duckId}", "green", 0.15, "rubber", "quack", "ACTIVE");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
                 "}");
     }
@@ -28,7 +28,7 @@ public class DuckUpdateTest extends BaseTest {
         createDuck(runner, "yellow", 0.05, "rubber", "quack", "ACTIVE");
         saveDuckIdFromResponse(runner);
         duckUpdate(runner, "${duckId}","white", 0.05, "rubber", "moo", "ACTIVE");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
                 "}");
     }

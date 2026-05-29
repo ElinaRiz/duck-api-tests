@@ -17,7 +17,7 @@ public class DuckDeleteTest extends BaseTest {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
         saveDuckIdFromResponse(runner);
         duckDelete(runner, "${duckId}");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck is deleted\"\n" +
                 "}");
     }

@@ -41,7 +41,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
                         .extract(fromBody().expression("$.id", "duckId")));
     }
 
-    public void validateSuccessResponse(TestCaseRunner runner, String responseMessage) {
+    public void validateOkResponse(TestCaseRunner runner, String responseMessage) {
         runner.$(
                 http()
                         .client("http://localhost:2222")

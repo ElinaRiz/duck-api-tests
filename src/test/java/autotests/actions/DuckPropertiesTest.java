@@ -15,7 +15,7 @@ public class DuckPropertiesTest extends BaseTest {
     @CitrusTest
     public void successfulPropertiesWithEvenId(@Optional @CitrusResource TestCaseRunner runner) {
         duckProperties(runner, "2");
-        validateSuccessResponse(runner,
+        validateOkResponse(runner,
                 buildDuckJson("yellow", 0.2, "wood", "quack", "ACTIVE"));
     }
 
@@ -23,7 +23,7 @@ public class DuckPropertiesTest extends BaseTest {
     @CitrusTest
     public void successfulPropertiesWithUnevenId(@Optional @CitrusResource TestCaseRunner runner) {
         duckProperties(runner, "1");
-        validateSuccessResponse(runner,
+        validateOkResponse(runner,
                 buildDuckJson("yellow", 0.03, "rubber", "quack", "FIXED"));
     }
 

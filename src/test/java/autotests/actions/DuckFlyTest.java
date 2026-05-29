@@ -17,7 +17,7 @@ public class DuckFlyTest extends BaseTest {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
         saveDuckIdFromResponse(runner);
         duckFly(runner, "${duckId}");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"I'm flying\"\n" +
                 "}");
     }
@@ -28,7 +28,7 @@ public class DuckFlyTest extends BaseTest {
         createDuck(runner, "brown", 0.15, "wood", "quack", "FIXED");
         saveDuckIdFromResponse(runner);
         duckFly(runner, "${duckId}");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"I can't fly\"\n" +
                 "}");
     }
@@ -39,7 +39,7 @@ public class DuckFlyTest extends BaseTest {
         createDuck(runner, "black", 0.2, "wood", "quack", "UNDEFINED");
         saveDuckIdFromResponse(runner);
         duckFly(runner, "${duckId}");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"Wings are not detected :(\"\n" +
                 "}");
     }

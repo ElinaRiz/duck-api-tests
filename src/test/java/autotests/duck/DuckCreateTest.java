@@ -13,7 +13,7 @@ public class DuckCreateTest extends BaseTest {
     @CitrusTest
     public void successfulCreateWithRubberMaterial(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
-        validateSuccessResponse(runner,
+        validateOkResponse(runner,
                 buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
     }
 
@@ -21,7 +21,7 @@ public class DuckCreateTest extends BaseTest {
     @CitrusTest
     public void successfulCreateWithWoodMaterial(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "brown", 0.15, "wood", "quack", "ACTIVE");
-        validateSuccessResponse(runner,
+        validateOkResponse(runner,
                 buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
     }
 }

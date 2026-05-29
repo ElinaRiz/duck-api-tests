@@ -18,7 +18,7 @@ public class DuckSwimTest extends BaseTest {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
         saveDuckIdFromResponse(runner);
         duckSwim(runner, "${duckId}");
-        validateSuccessResponse(runner, "{\n" +
+        validateOkResponse(runner, "{\n" +
                 "\"message\":\"I'm swimming\"\n" +
                 "}");
     }
