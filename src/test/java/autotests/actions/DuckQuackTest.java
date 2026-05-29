@@ -11,18 +11,18 @@ import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 public class DuckQuackTest extends BaseTest {
 
-    @Test(description = "Проверка того, что уточка с с нечётным id крякает")
+    @Test(description = "Проверка того, что уточка с с нечётным id и корректным звуком крякает")
     @CitrusTest
-    public void successfulQuackWithUnevenId(@Optional @CitrusResource TestCaseRunner runner) {
+    public void successfulQuackWithUnevenIdAndValidSound(@Optional @CitrusResource TestCaseRunner runner) {
         duckQuack(runner, "1", "2", "2");
         validateSuccessResponse(runner, "{\n" +
                 "\"sound\":\"quack-quack, quack-quack\"\n" +
                 "}");
     }
 
-    @Test(description = "Проверка того, что уточка с чётным id крякает")
+    @Test(description = "Проверка того, что уточка с чётным id и корректным звуком крякает")
     @CitrusTest
-    public void successfulQuackWithEvenId(@Optional @CitrusResource TestCaseRunner runner) {
+    public void successfulQuackWithEvenIdAndValidSound(@Optional @CitrusResource TestCaseRunner runner) {
         duckQuack(runner, "2", "2", "2");
         validateSuccessResponse(runner, "{\n" +
                 "\"sound\":\"quack-quack, quack-quack\"\n" +

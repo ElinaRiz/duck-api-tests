@@ -21,7 +21,7 @@ public class DuckPropertiesTest extends BaseTest {
 
     @Test(description = "Проверка получения характеристик уточки с нечётным id")
     @CitrusTest
-    public void successfulPropertiesWithUnEvenId(@Optional @CitrusResource TestCaseRunner runner) {
+    public void successfulPropertiesWithUnevenId(@Optional @CitrusResource TestCaseRunner runner) {
         duckProperties(runner, "1");
         validateSuccessResponse(runner,
                 buildDuckJson("yellow", 0.03, "rubber", "quack", "FIXED"));
