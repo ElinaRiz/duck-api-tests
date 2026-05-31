@@ -1,15 +1,13 @@
-package autotests.actions;
+package autotests.tests.action;
 
-import autotests.BaseTest;
+import autotests.clients.action.DuckQuackClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-import static com.consol.citrus.http.actions.HttpActionBuilder.http;
-
-public class DuckQuackTest extends BaseTest {
+public class DuckQuackTest extends DuckQuackClient {
 
     @Test(description = "Проверка того, что уточка с с нечётным id и корректным звуком крякает")
     @CitrusTest
@@ -31,16 +29,5 @@ public class DuckQuackTest extends BaseTest {
         validateOkResponse(runner, "{\n" +
                 "\"sound\":\"moo-moo, moo-moo\"\n" +
                 "}");
-    }
-
-    public void duckQuack(TestCaseRunner runner, String id, String repetition, String soundCount) {
-        runner.$(
-                http()
-                        .client("http://localhost:2222")
-                        .send()
-                        .get("/api/duck/action/quack")
-                        .queryParam("id", id)
-                        .queryParam("repetitionCount", repetition)
-                        .queryParam("soundCount", soundCount));
     }
 }

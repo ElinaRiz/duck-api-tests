@@ -1,13 +1,15 @@
-package autotests.duck;
+package autotests.tests.duck;
 
-import autotests.BaseTest;
+import autotests.clients.duck.DuckCreateClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckCreateTest extends BaseTest {
+import static autotests.payloads.DuckPayload.getDuckBodyWithIdMatcher;
+
+public class DuckCreateTest extends DuckCreateClient {
 
     @Test(description = "Проверка создания уточки с material rubber")
     @CitrusTest
@@ -17,7 +19,7 @@ public class DuckCreateTest extends BaseTest {
 //                buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
 //         BUG: сервис возвращает id в ответе
         validateOkResponse(runner,
-                buildDuckJsonWithIdForCreateValidate("red", 0.05, "rubber", "quack", "ACTIVE"));
+                getDuckBodyWithIdMatcher("red", 0.05, "rubber", "quack", "ACTIVE"));
         ;
     }
 
@@ -29,6 +31,6 @@ public class DuckCreateTest extends BaseTest {
 //                buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
 //        BUG: сервис возвращает id в ответе
         validateOkResponse(runner,
-                buildDuckJsonWithIdForCreateValidate("brown", 0.15, "wood", "quack", "ACTIVE"));
+                getDuckBodyWithIdMatcher("brown", 0.15, "wood", "quack", "ACTIVE"));
     }
 }

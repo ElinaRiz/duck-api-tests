@@ -1,15 +1,13 @@
-package autotests.actions;
+package autotests.tests.action;
 
-import autotests.BaseTest;
+import autotests.clients.action.DuckSwimClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-import static com.consol.citrus.http.actions.HttpActionBuilder.http;
-
-public class DuckSwimTest extends BaseTest {
+public class DuckSwimTest extends DuckSwimClient {
 
     @Test(description = "Проверка того, что уточка с существующим id поплыла")
     @CitrusTest
@@ -33,14 +31,5 @@ public class DuckSwimTest extends BaseTest {
 
         duckSwim(runner, duckId);
         validateNotFoundResponse(runner, "Paws are not found ((((");
-    }
-
-    public void duckSwim(TestCaseRunner runner, String id) {
-        runner.$(
-                http()
-                        .client("http://localhost:2222")
-                        .send()
-                        .get("/api/duck/action/swim")
-                        .queryParam("id", id));
     }
 }

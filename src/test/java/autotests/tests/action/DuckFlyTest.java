@@ -1,15 +1,13 @@
-package autotests.actions;
+package autotests.tests.action;
 
-import autotests.BaseTest;
+import autotests.clients.action.DuckFlyClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-import static com.consol.citrus.http.actions.HttpActionBuilder.http;
-
-public class DuckFlyTest extends BaseTest {
+public class DuckFlyTest extends DuckFlyClient {
 
     @Test(description = "Проверка того, что уточка с активными крыльями полетела")
     @CitrusTest
@@ -50,14 +48,5 @@ public class DuckFlyTest extends BaseTest {
         validateOkResponse(runner, "{\n" +
                 "\"message\":\"Wings are not detected :(\"\n" +
                 "}");
-    }
-
-    public void duckFly(TestCaseRunner runner, String id) {
-        runner.$(
-                http()
-                        .client("http://localhost:2222")
-                        .send()
-                        .get("/api/duck/action/fly")
-                        .queryParam("id", id));
     }
 }
