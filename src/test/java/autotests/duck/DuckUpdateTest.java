@@ -15,8 +15,8 @@ public class DuckUpdateTest extends BaseTest {
     @CitrusTest
     public void successfulUpdateColorAndHeight(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.05, "rubber", "quack", "ACTIVE");
-        saveDuckIdFromResponse(runner);
-        duckUpdate(runner, "${duckId}", "green", 0.15, "rubber", "quack", "ACTIVE");
+        String duckId = getDuckIdFromResponse(runner);
+        duckUpdate(runner, duckId, "green", 0.15, "rubber", "quack", "ACTIVE");
         validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
                 "}");
@@ -26,8 +26,8 @@ public class DuckUpdateTest extends BaseTest {
     @CitrusTest
     public void successfulUpdateColorAndSound(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.05, "rubber", "quack", "ACTIVE");
-        saveDuckIdFromResponse(runner);
-        duckUpdate(runner, "${duckId}","white", 0.05, "rubber", "moo", "ACTIVE");
+        String duckId = getDuckIdFromResponse(runner);
+        duckUpdate(runner, duckId,"white", 0.05, "rubber", "moo", "ACTIVE");
         validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
                 "}");

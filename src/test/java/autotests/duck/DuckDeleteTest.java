@@ -15,8 +15,8 @@ public class DuckDeleteTest extends BaseTest {
     @CitrusTest
     public void successfulDelete(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
-        saveDuckIdFromResponse(runner);
-        duckDelete(runner, "${duckId}");
+        String duckId = getDuckIdFromResponse(runner);
+        duckDelete(runner, duckId);
         validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck is deleted\"\n" +
                 "}");
