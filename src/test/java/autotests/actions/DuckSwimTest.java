@@ -27,11 +27,11 @@ public class DuckSwimTest extends BaseTest {
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
     @CitrusTest
     public void unsuccessfulSwimWithUnexistingId(@Optional @CitrusResource TestCaseRunner runner) {
-        String id = "9223372036854775807";
-        duckProperties(runner, id);
-        validateNotFoundResponseWith500Error(runner, "Duck with id = " + id + " is not found");
+        String duckId = "9223372036854775807";
+        duckProperties(runner, duckId);
+        validateNotFoundResponseWith500Error(runner, "Duck with id = " + duckId + " is not found");
 
-        duckSwim(runner, id);
+        duckSwim(runner, duckId);
         validateNotFoundResponse(runner, "Paws are not found ((((");
     }
 

@@ -18,7 +18,7 @@ public class DuckUpdateTest extends BaseTest {
         String duckId = getDuckIdFromResponse(runner);
         duckUpdate(runner, duckId, "green", 0.15, "rubber", "quack", "ACTIVE");
         validateOkResponse(runner, "{\n" +
-                "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
+                "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
     }
 
@@ -29,7 +29,7 @@ public class DuckUpdateTest extends BaseTest {
         String duckId = getDuckIdFromResponse(runner);
         duckUpdate(runner, duckId,"white", 0.05, "rubber", "moo", "ACTIVE");
         validateOkResponse(runner, "{\n" +
-                "\"message\":\"Duck with id = ${duckId} is updated\"\n" +
+                "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
     }
 
