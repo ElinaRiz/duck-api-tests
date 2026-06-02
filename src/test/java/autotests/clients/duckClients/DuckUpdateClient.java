@@ -1,16 +1,17 @@
-package autotests.clients.duck;
+package autotests.clients.duckClients;
 
-import autotests.BaseTest;
+import autotests.clients.DuckBaseClient;
 import com.consol.citrus.TestCaseRunner;
 
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
-public class DuckUpdateClient extends BaseTest {
+public class DuckUpdateClient extends DuckBaseClient {
 
     public void duckUpdate(TestCaseRunner runner, String id, String color , double height , String material , String sound , String wingsState) {
+        String path = "/api/duck/update";
         runner.$(http().client(duckService)
                         .send()
-                        .put("/api/duck/update")
+                        .put(path)
                         .queryParam("id", id)
                         .queryParam("color", color)
                         .queryParam("height", String.valueOf(height))

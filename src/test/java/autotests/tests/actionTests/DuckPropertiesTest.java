@@ -1,6 +1,6 @@
-package autotests.tests.action;
+package autotests.tests.actionTests;
 
-import autotests.clients.action.DuckPropertiesClient;
+import autotests.clients.DuckBaseClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static autotests.payloads.DuckPayload.getDuckBody;
 
-public class DuckPropertiesTest extends DuckPropertiesClient {
+public class DuckPropertiesTest extends DuckBaseClient {
 
     @Test(description = "Проверка получения характеристик уточки с чётным id")
     @CitrusTest

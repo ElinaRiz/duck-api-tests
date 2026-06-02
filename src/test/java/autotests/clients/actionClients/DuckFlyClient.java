@@ -1,16 +1,17 @@
-package autotests.clients.action;
+package autotests.clients.actionClients;
 
-import autotests.BaseTest;
+import autotests.clients.DuckBaseClient;
 import com.consol.citrus.TestCaseRunner;
 
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
-public class DuckFlyClient extends BaseTest {
+public class DuckFlyClient extends DuckBaseClient {
 
     public void duckFly(TestCaseRunner runner, String id) {
+        String path = "/api/duck/action/fly";
         runner.$(http().client(duckService)
                         .send()
-                        .get("/api/duck/action/fly")
+                        .get(path)
                         .queryParam("id", id));
     }
 }

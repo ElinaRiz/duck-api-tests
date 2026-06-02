@@ -1,6 +1,6 @@
-package autotests.tests.action;
+package autotests.tests.actionTests;
 
-import autotests.clients.action.DuckQuackClient;
+import autotests.clients.actionClients.DuckQuackClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;

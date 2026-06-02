@@ -1,16 +1,17 @@
-package autotests.clients.action;
+package autotests.clients.actionClients;
 
-import autotests.BaseTest;
+import autotests.clients.DuckBaseClient;
 import com.consol.citrus.TestCaseRunner;
 
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
-public class DuckQuackClient extends BaseTest {
+public class DuckQuackClient extends DuckBaseClient {
 
     public void duckQuack(TestCaseRunner runner, String id, String repetition, String soundCount) {
+        String path = "/api/duck/action/quack";
         runner.$(http().client(duckService)
                         .send()
-                        .get("/api/duck/action/quack")
+                        .get(path)
                         .queryParam("id", id)
                         .queryParam("repetitionCount", repetition)
                         .queryParam("soundCount", soundCount));

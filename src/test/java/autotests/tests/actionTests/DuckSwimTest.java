@@ -1,6 +1,6 @@
-package autotests.tests.action;
+package autotests.tests.actionTests;
 
-import autotests.clients.action.DuckSwimClient;
+import autotests.clients.actionClients.DuckSwimClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -14,12 +14,15 @@ public class DuckSwimTest extends DuckSwimClient {
     public void successfulSwimWithExistingId(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
         String duckId = getDuckIdFromResponse(runner);
+
         duckSwim(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
 //                "\"message\":\"I'm swimming\"\n" +
 //                "}");
 //        BUG: сервис возвращает 400 ошибку и некорректное сообщение
         validateNotFoundResponse(runner, "Paws are not found ((((");
+
+        duckDelete(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
