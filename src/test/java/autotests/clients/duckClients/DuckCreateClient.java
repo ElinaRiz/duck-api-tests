@@ -21,4 +21,15 @@ public class DuckCreateClient extends DuckBaseClient {
 
         return "${duckId}";
     }
+
+    public String getDuckBodyWithIdMatcher(String color, double height, String material, String sound, String wingsState) {
+        return "{\n" +
+                "\"id\": \"@isNumber()@\",\n" +
+                "\"color\": \"" + color + "\",\n" +
+                "\"height\": " + height + ",\n" +
+                "\"material\": \"" + material + "\",\n" +
+                "\"sound\": \"" + sound + "\",\n" +
+                "\"wingsState\": \"" + wingsState + "\"\n" +
+                "}";
+    }
 }

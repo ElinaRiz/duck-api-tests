@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 
-import static autotests.payloads.DuckPayload.getDuckBody;
 import static com.consol.citrus.dsl.MessageSupport.MessageBodySupport.fromBody;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
@@ -62,5 +61,15 @@ public class DuckBaseClient extends TestNGCitrusSpringSupport {
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(responseMessage));
+    }
+
+    public String getDuckBody(String color, double height, String material, String sound, String wingsState) {
+        return "{\n" +
+                "\"color\": \"" + color + "\",\n" +
+                "\"height\": " + height + ",\n" +
+                "\"material\": \"" + material + "\",\n" +
+                "\"sound\": \"" + sound + "\",\n" +
+                "\"wingsState\": \"" + wingsState + "\"\n" +
+                "}";
     }
 }

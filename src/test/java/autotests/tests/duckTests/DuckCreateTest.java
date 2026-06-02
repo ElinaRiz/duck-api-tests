@@ -7,8 +7,6 @@ import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-import static autotests.payloads.DuckPayload.getDuckBodyWithIdMatcher;
-
 public class DuckCreateTest extends DuckCreateClient {
 
     @Test(description = "Проверка создания уточки с material rubber")
