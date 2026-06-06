@@ -1,6 +1,8 @@
 package autotests.tests.actionTests;
 
 import autotests.clients.actionClients.DuckSwimClient;
+import autotests.payloads.DuckProperties;
+import autotests.payloads.MessageResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -12,7 +14,13 @@ public class DuckSwimTest extends DuckSwimClient {
     @Test(description = "Проверка того, что уточка с существующим id поплыла")
     @CitrusTest
     public void successfulSwimWithExistingId(@Optional @CitrusResource TestCaseRunner runner) {
-        createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
+        DuckProperties duck = new DuckProperties()
+                .color("red")
+                .height(0.05)
+                .material("rubber")
+                .sound("quack")
+                .wingsState("ACTIVE");
+        createDuck(runner, duck);
         String duckId = getDuckIdFromResponse(runner);
 
         duckSwim(runner, duckId);
@@ -20,19 +28,27 @@ public class DuckSwimTest extends DuckSwimClient {
 //                "\"message\":\"I'm swimming\"\n" +
 //                "}");
 //        BUG: сервис возвращает 400 ошибку и некорректное сообщение
-        validateNotFoundResponse(runner, "Paws are not found ((((");
+        validateNotFoundResponseByResource(runner, "swimTest/duckSwimWithExistingId.json");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
     @CitrusTest
     public void unsuccessfulSwimWithUnexistingId(@Optional @CitrusResource TestCaseRunner runner) {
-        String duckId = "9223372036854775807";
-        duckProperties(runner, duckId);
-        validateNotFoundResponseWith500Error(runner, "Duck with id = " + duckId + " is not found");
+        DuckProperties duck = new DuckProperties()
+                .color("purple")
+                .height(0.01)
+                .material("rubber")
+                .sound("quack")
+                .wingsState("ACTIVE");
+        createDuck(runner, duck);
+        String duckId = getDuckIdFromResponse(runner);
+        deleteDuck(runner, duckId);
 
         duckSwim(runner, duckId);
-        validateNotFoundResponse(runner, "Paws are not found ((((");
+        MessageResponse message = new MessageResponse()
+                .message("Paws are not found ((((");
+        validateNotFoundResponse(runner, message);
     }
 }

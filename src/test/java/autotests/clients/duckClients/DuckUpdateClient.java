@@ -1,22 +1,27 @@
 package autotests.clients.duckClients;
 
-import autotests.clients.DuckBaseClient;
+import autotests.clients.DuckClient;
+import autotests.payloads.DuckProperties;
 import com.consol.citrus.TestCaseRunner;
 
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
-public class DuckUpdateClient extends DuckBaseClient {
+public class DuckUpdateClient extends DuckClient {
 
-    public void duckUpdate(TestCaseRunner runner, String id, String color , double height , String material , String sound , String wingsState) {
+    public void updateDuck(TestCaseRunner runner, String id, DuckProperties duckProperties) {
         String path = "/api/duck/update";
+        sendPutMethod(runner, path, id, duckProperties);
+    }
+
+    public void sendPutMethod(TestCaseRunner runner, String path, String id, DuckProperties duck) {
         runner.$(http().client(duckService)
-                        .send()
-                        .put(path)
-                        .queryParam("id", id)
-                        .queryParam("color", color)
-                        .queryParam("height", String.valueOf(height))
-                        .queryParam("material", material)
-                        .queryParam("sound", sound)
-                        .queryParam("wingsState", wingsState));
+                .send()
+                .put(path)
+                .queryParam("id", id)
+                .queryParam("color", duck.color())
+                .queryParam("height", String.valueOf(duck.height()))
+                .queryParam("material", duck.material())
+                .queryParam("sound", duck.sound())
+                .queryParam("wingsState", duck.wingsState()));
     }
 }

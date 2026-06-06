@@ -1,6 +1,8 @@
 package autotests.tests.actionTests;
 
 import autotests.clients.actionClients.DuckFlyClient;
+import autotests.payloads.DuckProperties;
+import autotests.payloads.MessageResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -12,7 +14,13 @@ public class DuckFlyTest extends DuckFlyClient {
     @Test(description = "Проверка того, что уточка с активными крыльями полетела")
     @CitrusTest
     public void successfulFlyWithActiveWings(@Optional @CitrusResource TestCaseRunner runner) {
-        createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
+        DuckProperties duck = new DuckProperties()
+                .color("red")
+                .height(0.05)
+                .material("rubber")
+                .sound("quack")
+                .wingsState("ACTIVE");
+        createDuck(runner, duck);
         String duckId = getDuckIdFromResponse(runner);
 
         duckFly(runner, duckId);
@@ -24,13 +32,19 @@ public class DuckFlyTest extends DuckFlyClient {
                 "\"message\":\"I am flying :)\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка со связанными крыльями не полетела")
     @CitrusTest
     public void unsuccessfulFlyWithFixedWings(@Optional @CitrusResource TestCaseRunner runner) {
-        createDuck(runner, "brown", 0.15, "wood", "quack", "FIXED");
+        DuckProperties duck = new DuckProperties()
+                .color("brown")
+                .height(0.15)
+                .material("wood")
+                .sound("quack")
+                .wingsState("FIXED");
+        createDuck(runner, duck);
         String duckId = getDuckIdFromResponse(runner);
 
         duckFly(runner, duckId);
@@ -38,24 +52,28 @@ public class DuckFlyTest extends DuckFlyClient {
 //                "\"message\":\"I can't fly\"\n" +
 //                "}");
 //        BUG: сервис возвращает некорректное сообщение
-        validateOkResponse(runner, "{\n" +
-                "\"message\":\"I can not fly :C\"\n" +
-                "}");
+        validateOkResponseByResource(runner, "flyTest/duckFlyWithFixedWings.json");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с крыльями в неопределенном состоянии не полетела")
     @CitrusTest
     public void unsuccessfulFlyWithUndefinedWings(@Optional @CitrusResource TestCaseRunner runner) {
-        createDuck(runner, "black", 0.2, "wood", "quack", "UNDEFINED");
+        DuckProperties duck = new DuckProperties()
+                .color("black")
+                .height(0.2)
+                .material("wood")
+                .sound("quack")
+                .wingsState("UNDEFINED");
+        createDuck(runner, duck);
         String duckId = getDuckIdFromResponse(runner);
 
         duckFly(runner, duckId);
-        validateOkResponse(runner, "{\n" +
-                "\"message\":\"Wings are not detected :(\"\n" +
-                "}");
+        MessageResponse message = new MessageResponse()
+                .message("Wings are not detected :(");
+        validateOkResponse(runner, message);
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 }
