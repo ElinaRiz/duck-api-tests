@@ -5,6 +5,7 @@ import autotests.payloads.DuckProperties;
 import com.consol.citrus.TestCaseRunner;
 import io.qameta.allure.Step;
 
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 public class DuckUpdateClient extends DuckClient {
@@ -21,5 +22,18 @@ public class DuckUpdateClient extends DuckClient {
         runner.$(http().client(duckService)
                 .send()
                 .put(path));
+    }
+
+
+    @Step("Проверка характеристик уточки в базе данных")
+    public void validateDuckInDatabase(TestCaseRunner runner, String id, DuckProperties duck) {
+        String query = String.format("SELECT * FROM duck WHERE id=%s", id);
+        runner.$(query(testDb)
+                .statement(query)
+                .validate("color", duck.color())
+                .validate("height", String.valueOf(duck.height()))
+                .validate("material", duck.material())
+                .validate("sound", duck.sound())
+                .validate("wings_state", duck.wingsState()));
     }
 }
