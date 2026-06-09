@@ -28,19 +28,11 @@ public class DuckBaseClient extends TestNGCitrusSpringSupport {
                 .body(getDuckBody(color, height, material, sound, wingsState)));
     }
 
-    public void duckDelete(TestCaseRunner runner, String id) {
+    public void deleteDuck(TestCaseRunner runner, String id) {
         String path = "/api/duck/delete";
         runner.$(http().client(duckService)
                 .send()
                 .delete(path)
-                .queryParam("id", id));
-    }
-
-    public void duckProperties(TestCaseRunner runner, String id) {
-        String path = "/api/duck/action/properties";
-        runner.$(http().client(duckService)
-                .send()
-                .get(path)
                 .queryParam("id", id));
     }
 

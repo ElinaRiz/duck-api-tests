@@ -15,7 +15,7 @@ public class DuckDeleteTest extends DuckBaseClient {
         createDuck(runner, "red", 0.05, "rubber", "quack", "ACTIVE");
         String duckId = getDuckIdFromResponse(runner);
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
         validateOkResponse(runner, "{\n" +
                 "\"message\":\"Duck is deleted\"\n" +
                 "}");

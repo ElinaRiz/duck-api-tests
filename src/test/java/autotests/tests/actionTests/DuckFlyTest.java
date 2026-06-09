@@ -24,7 +24,7 @@ public class DuckFlyTest extends DuckFlyClient {
                 "\"message\":\"I am flying :)\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка со связанными крыльями не полетела")
@@ -42,7 +42,7 @@ public class DuckFlyTest extends DuckFlyClient {
                 "\"message\":\"I can not fly :C\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с крыльями в неопределенном состоянии не полетела")
@@ -56,6 +56,6 @@ public class DuckFlyTest extends DuckFlyClient {
                 "\"message\":\"Wings are not detected :(\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 }

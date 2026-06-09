@@ -22,15 +22,15 @@ public class DuckSwimTest extends DuckSwimClient {
 //        BUG: сервис возвращает 400 ошибку и некорректное сообщение
         validateNotFoundResponse(runner, "Paws are not found ((((");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
     @CitrusTest
     public void unsuccessfulSwimWithUnexistingId(@Optional @CitrusResource TestCaseRunner runner) {
-        String duckId = "9223372036854775807";
-        duckProperties(runner, duckId);
-        validateNotFoundResponseWith500Error(runner, "Duck with id = " + duckId + " is not found");
+        createDuck(runner, "purple", 0.01, "rubber", "quack", "ACTIVE");
+        String duckId = getDuckIdFromResponse(runner);
+        deleteDuck(runner, duckId);
 
         duckSwim(runner, duckId);
         validateNotFoundResponse(runner, "Paws are not found ((((");

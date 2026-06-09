@@ -19,7 +19,7 @@ public class DuckCreateTest extends DuckCreateClient {
         String duckId = validateOkResponseAndGetDuckId(runner,
                 getDuckBodyWithIdMatcher("red", 0.05, "rubber", "quack", "ACTIVE"));
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка создания уточки с material wood")
@@ -32,6 +32,6 @@ public class DuckCreateTest extends DuckCreateClient {
         String duckId = validateOkResponseAndGetDuckId(runner,
                 getDuckBodyWithIdMatcher("brown", 0.15, "wood", "quack", "ACTIVE"));
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 }

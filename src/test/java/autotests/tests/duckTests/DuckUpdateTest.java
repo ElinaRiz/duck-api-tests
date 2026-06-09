@@ -20,7 +20,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка изменения цвета и звука уточки")
@@ -34,6 +34,6 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
 
-        duckDelete(runner, duckId);
+        deleteDuck(runner, duckId);
     }
 }
