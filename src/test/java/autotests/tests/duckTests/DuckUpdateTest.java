@@ -39,7 +39,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 "}");
         validateDuckInDatabase(runner, duckId, updateDuck);
 
-        deleteDuckInDatabase(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка изменения цвета и звука уточки")
@@ -65,6 +65,6 @@ public class DuckUpdateTest extends DuckUpdateClient {
         validateResponse(runner, HttpStatus.OK, message);
         validateDuckInDatabase(runner, duckId, updateDuck);
 
-        deleteDuckInDatabase(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 }

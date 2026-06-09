@@ -36,7 +36,7 @@ public class DuckFlyTest extends DuckFlyClient {
                 "\"message\":\"I am flying :)\"\n" +
                 "}");
 
-        deleteDuckInDatabase(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка со связанными крыльями не полетела")
@@ -57,7 +57,7 @@ public class DuckFlyTest extends DuckFlyClient {
 //        BUG: сервис возвращает некорректное сообщение
         validateResponseByResource(runner, HttpStatus.OK, "flyTest/duckFlyWithFixedWings.json");
 
-        deleteDuckInDatabase(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с крыльями в неопределенном состоянии не полетела")
@@ -76,6 +76,6 @@ public class DuckFlyTest extends DuckFlyClient {
                 .message("Wings are not detected :(");
         validateResponse(runner, HttpStatus.OK, message);
 
-        deleteDuckInDatabase(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 }

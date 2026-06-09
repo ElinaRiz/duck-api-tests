@@ -30,7 +30,7 @@ public class DuckCreateClient extends DuckClient {
                 .body(new ObjectMappingPayloadBuilder(duckProperties, new ObjectMapper())));
     }
 
-    @Step("Валидация ответа на запрос с помощью передачи строки и полуения id уточки")
+    @Step("Валидация ответа на запрос с помощью передачи строки и получение id уточки")
     public String validateResponseAndGetDuckId(TestCaseRunner runner, HttpStatus httpStatus, String responseMessage) {
         runner.$(http().client(duckService)
                 .receive()
@@ -43,7 +43,7 @@ public class DuckCreateClient extends DuckClient {
         return "${duckId}";
     }
 
-    @Step("Валидация ответа на запрос с помощью json из папки Resources и полуения id уточки")
+    @Step("Валидация ответа на запрос с помощью json из папки Resources и получение id уточки")
     public String validateResponseByResourceAndGetDuckId(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath) {
         runner.$(http().client(duckService)
                 .receive()
@@ -56,7 +56,7 @@ public class DuckCreateClient extends DuckClient {
         return "${duckId}";
     }
 
-    @Step("Валидация ответа на запрос с помощью модели данных и полуения id уточки")
+    @Step("Валидация ответа на запрос с помощью модели данных и получение id уточки")
     public String validateResponseAndGetDuckId(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
         runner.$(http().client(duckService)
                 .receive()

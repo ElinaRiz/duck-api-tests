@@ -40,7 +40,7 @@ public class DuckClient extends TestNGCitrusSpringSupport {
     }
 
     @Step("Удаление уточки из базы данных")
-    public void deleteDuckInDatabase(TestCaseRunner runner, String id) {
+    public void deleteDuckFromDatabase(TestCaseRunner runner, String id) {
         String query = String.format("DELETE FROM duck WHERE id=%s", id);
         updateDatabase(runner, query);
     }
