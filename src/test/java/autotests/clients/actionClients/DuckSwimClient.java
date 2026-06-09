@@ -9,6 +9,6 @@ public class DuckSwimClient extends DuckClient {
     @Step("Отправка команды 'Плыть' уточке")
     public void duckSwim(TestCaseRunner runner, String id) {
         String path = String.format("/api/duck/action/swim?id=%s", id);
-        sendGetMethod(runner, path);
+        sendGetRequest(runner, path);
     }
 }

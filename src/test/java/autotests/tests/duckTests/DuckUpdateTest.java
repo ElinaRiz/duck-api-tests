@@ -26,6 +26,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         DuckProperties updateDuck = new DuckProperties()
                 .color("green")
@@ -34,12 +35,10 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         updateDuck(runner, duckId, updateDuck);
-        validateResponse(runner, HttpStatus.OK, "{\n" +
+        validateResponseByString(runner, HttpStatus.OK, "{\n" +
                 "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
         validateDuckInDatabase(runner, duckId, updateDuck);
-
-        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка изменения цвета и звука уточки")
@@ -52,6 +51,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         DuckProperties updateDuck = new DuckProperties()
                 .color("white")
@@ -62,9 +62,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
         updateDuck(runner, duckId, updateDuck);
         MessageResponse message = new MessageResponse()
                 .message("Duck with id = " + duckId + " is updated");
-        validateResponse(runner, HttpStatus.OK, message);
+        validateResponseByPayload(runner, HttpStatus.OK, message);
         validateDuckInDatabase(runner, duckId, updateDuck);
-
-        deleteDuckFromDatabase(runner, duckId);
     }
 }
