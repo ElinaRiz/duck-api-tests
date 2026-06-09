@@ -6,9 +6,14 @@ import autotests.payloads.MessageResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тесты на duck-action-controller")
+@Feature("Плавание уточки")
 public class DuckSwimTest extends DuckSwimClient {
 
     @Test(description = "Проверка того, что уточка с существующим id поплыла")
@@ -20,17 +25,16 @@ public class DuckSwimTest extends DuckSwimClient {
                 .material("rubber")
                 .sound("quack")
                 .wingsState("ACTIVE");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         duckSwim(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
 //                "\"message\":\"I'm swimming\"\n" +
 //                "}");
 //        BUG: сервис возвращает 400 ошибку и некорректное сообщение
-        validateNotFoundResponseByResource(runner, "swimTest/duckSwimWithExistingId.json");
+        validateResponseByResource(runner, HttpStatus.NOT_FOUND, "swimTest/duckSwimWithExistingId.json");
 
-        deleteDuck(runner, duckId);
+        deleteDuckInDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
@@ -42,13 +46,12 @@ public class DuckSwimTest extends DuckSwimClient {
                 .material("rubber")
                 .sound("quack")
                 .wingsState("ACTIVE");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
-        deleteDuck(runner, duckId);
+        String duckId = createDuckInDatabase(runner, duck);
+        deleteDuckInDatabase(runner, duckId);
 
         duckSwim(runner, duckId);
         MessageResponse message = new MessageResponse()
                 .message("Paws are not found ((((");
-        validateNotFoundResponse(runner, message);
+        validateResponse(runner, HttpStatus.NOT_FOUND, message);
     }
 }

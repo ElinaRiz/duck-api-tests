@@ -5,9 +5,14 @@ import autotests.payloads.DuckProperties;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тесты на duck-controller")
+@Feature("Создание уточки")
 public class DuckCreateTest extends DuckCreateClient {
 
     @Test(description = "Проверка создания уточки с material rubber")
@@ -24,9 +29,9 @@ public class DuckCreateTest extends DuckCreateClient {
 //        validateOkResponse(runner,
 //                buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
 //         BUG: сервис возвращает id в ответе
-        String duckId = validateOkResponseByResourceAndGetDuckId(runner, "createTest/createRubberDuck.json");
+        String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createRubberDuck.json");
 
-        deleteDuck(runner, duckId);
+        deleteDuckInDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка создания уточки с material wood")
@@ -43,8 +48,8 @@ public class DuckCreateTest extends DuckCreateClient {
 //        validateOkResponse(runner,
 //                buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
 //        BUG: сервис возвращает id в ответе
-        String duckId = validateOkResponseByResourceAndGetDuckId(runner, "createTest/createWoodDuck.json");
+        String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createWoodDuck.json");
 
-        deleteDuck(runner, duckId);
+        deleteDuckInDatabase(runner, duckId);
     }
 }
