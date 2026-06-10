@@ -29,13 +29,13 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     protected SingleConnectionDataSource testDb;
 
     @Step("Обновление данных в базе данных")
-    public void updateDatabase(TestCaseRunner runner, String query) {
+    protected void updateDatabase(TestCaseRunner runner, String query) {
         runner.$(sql(testDb)
                 .statement(query));
     }
 
     @Step("Извлечь переменную из базы данных")
-    public String extractVariableFromDatabase(TestCaseRunner runner, String query, String columnName, String variableName) {
+    protected String extractVariableFromDatabase(TestCaseRunner runner, String query, String columnName, String variableName) {
         runner.$(query(testDb)
                 .statement(query)
                 .extract(columnName, variableName));
@@ -44,29 +44,28 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация переменной в базе данных")
-    public void validateVariableInDatabase(TestCaseRunner runner, String query, String columnName, String value) {
+    protected void validateVariableInDatabase(TestCaseRunner runner, String query, String columnName, String value) {
         runner.$(query(testDb)
                 .statement(query)
                 .validate(columnName, value));
     }
 
-
     @Step("Восстановление исходного состояния")
-    public void executeAfterTest(TestCaseRunner runner, Runnable action) {
+    protected void executeAfterTest(TestCaseRunner runner, Runnable action) {
         runner.$(doFinally()
                 .actions(testContext -> action.run()));
     }
 
 
     @Step("Отправка GET запроса")
-    public void sendGetRequest(TestCaseRunner runner, String path) {
+    protected void sendGetRequest(TestCaseRunner runner, String path) {
         runner.$(http().client(duckService)
                 .send()
                 .get(path));
     }
 
     @Step("Отправка POST запроса")
-    public void sendPostRequest(TestCaseRunner runner, String path, Object payload) {
+    protected void sendPostRequest(TestCaseRunner runner, String path, Object payload) {
         runner.$(http().client(duckService)
                 .send()
                 .post(path)
@@ -76,14 +75,14 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Отправка PUT запроса")
-    public void sendPutRequest(TestCaseRunner runner, String path) {
+    protected void sendPutRequest(TestCaseRunner runner, String path) {
         runner.$(http().client(duckService)
                 .send()
                 .put(path));
     }
 
     @Step("Отправка DELETE запроса")
-    public void sendDeleteMethod(TestCaseRunner runner, String path) {
+    protected void sendDeleteMethod(TestCaseRunner runner, String path) {
         runner.$(http().client(duckService)
                 .send()
                 .delete(path));
@@ -91,7 +90,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
 
 
     @Step("Валидация ответа на запрос с помощью передачи строки")
-    public void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedResponse) {
+    protected void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedResponse) {
         runner.$(http().client(duckService)
                 .receive()
                 .response(httpStatus)
@@ -101,7 +100,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью json из папки Resources")
-    public void validateResponseByResource(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath) {
+    protected void validateResponseByResource(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath) {
         runner.$(http().client(duckService)
                 .receive()
                 .response(httpStatus)
@@ -111,7 +110,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью json из папки Resources и получение значения параметра")
-    public String validateResponseByResourceAndExtractVariable(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath, String jsonPath, String variableName) {
+    protected String validateResponseByResourceAndExtractVariable(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath, String jsonPath, String variableName) {
         runner.$(http().client(duckService)
                 .receive()
                 .response(httpStatus)
@@ -124,7 +123,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью модели данных")
-    public void validateResponseByPayload(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
+    protected void validateResponseByPayload(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
         runner.$(http().client(duckService)
                 .receive()
                 .response(httpStatus)
