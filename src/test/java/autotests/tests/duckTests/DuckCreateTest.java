@@ -30,6 +30,7 @@ public class DuckCreateTest extends DuckCreateClient {
 //                buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
 //         BUG: сервис возвращает id в ответе
         String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createRubberDuck.json");
+        validateDuckInDatabase(runner, duckId, duck);
 
         deleteDuckFromDatabase(runner, duckId);
     }
@@ -49,6 +50,7 @@ public class DuckCreateTest extends DuckCreateClient {
 //                buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
 //        BUG: сервис возвращает id в ответе
         String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createWoodDuck.json");
+        validateDuckInDatabase(runner, duckId, duck);
 
         deleteDuckFromDatabase(runner, duckId);
     }

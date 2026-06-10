@@ -23,17 +23,4 @@ public class DuckUpdateClient extends DuckClient {
                 .send()
                 .put(path));
     }
-
-
-    @Step("Проверка характеристик уточки в базе данных")
-    public void validateDuckInDatabase(TestCaseRunner runner, String id, DuckProperties duck) {
-        String query = String.format("SELECT * FROM duck WHERE id=%s", id);
-        runner.$(query(testDb)
-                .statement(query)
-                .validate("color", duck.color())
-                .validate("height", String.valueOf(duck.height()))
-                .validate("material", duck.material())
-                .validate("sound", duck.sound())
-                .validate("wings_state", duck.wingsState()));
-    }
 }

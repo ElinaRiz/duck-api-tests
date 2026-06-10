@@ -4,6 +4,7 @@ import autotests.clients.DuckClient;
 import com.consol.citrus.TestCaseRunner;
 import io.qameta.allure.Step;
 
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 public class DuckDeleteClient extends DuckClient {
@@ -19,5 +20,18 @@ public class DuckDeleteClient extends DuckClient {
         runner.$(http().client(duckService)
                 .send()
                 .delete(path));
+    }
+
+    @Step("Проверка удаления уточки из базы данных")
+    public void validateDuckDeletedInDatabase(TestCaseRunner runner, String id) {
+        String query = String.format("SELECT COUNT(*) AS counter FROM duck WHERE id=%s", id);
+        validateVariableInDatabase(runner, query, "counter", "0");
+    }
+
+    @Step("Валидация переменной в базе данных")
+    public void validateVariableInDatabase(TestCaseRunner runner, String query, String columnName, String value) {
+        runner.$(query(testDb)
+                .statement(query)
+                .validate(columnName, value));
     }
 }
