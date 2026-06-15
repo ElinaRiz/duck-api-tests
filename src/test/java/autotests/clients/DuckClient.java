@@ -30,7 +30,7 @@ public class DuckClient extends TestNGCitrusSpringSupport {
 
     @Step("Создание уточки в базе данных")
     public String createDuckInDatabase(TestCaseRunner runner, DuckProperties duck) {
-        String id = extractDuckIdFromDatabase(runner, "SELECT MAX(id) + 1 AS new_duck_id FROM duck", "new_duck_id");
+        String id = extractDuckIdFromDatabase(runner, "SELECT COALESCE(MAX(id), 0) + 1 AS new_duck_id FROM duck", "new_duck_id");
 
         String query = String.format("INSERT INTO duck (id, color, height, material, sound, wings_state)\n " +
                 "VALUES (%1$s, '%2$s', %3$s, '%4$s', '%5$s', '%6$s')", id, duck.color(), duck.height(), duck.material(), duck.sound(), duck.wingsState());
