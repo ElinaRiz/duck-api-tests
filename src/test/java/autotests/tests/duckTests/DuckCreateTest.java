@@ -1,13 +1,13 @@
-package autotests.duck;
+package autotests.tests.duckTests;
 
-import autotests.BaseTest;
+import autotests.clients.duckClients.DuckCreateClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckCreateTest extends BaseTest {
+public class DuckCreateTest extends DuckCreateClient {
 
     @Test(description = "Проверка создания уточки с material rubber")
     @CitrusTest
@@ -16,9 +16,10 @@ public class DuckCreateTest extends BaseTest {
 //        validateOkResponse(runner,
 //                buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
 //         BUG: сервис возвращает id в ответе
-        validateOkResponse(runner,
-                buildDuckJsonWithIdForCreateValidate("red", 0.05, "rubber", "quack", "ACTIVE"));
-        ;
+        String duckId = validateOkResponseAndGetDuckId(runner,
+                getDuckBodyWithIdMatcher("red", 0.05, "rubber", "quack", "ACTIVE"));
+
+        deleteDuck(runner, duckId);
     }
 
     @Test(description = "Проверка создания уточки с material wood")
@@ -28,7 +29,9 @@ public class DuckCreateTest extends BaseTest {
 //        validateOkResponse(runner,
 //                buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
 //        BUG: сервис возвращает id в ответе
-        validateOkResponse(runner,
-                buildDuckJsonWithIdForCreateValidate("brown", 0.15, "wood", "quack", "ACTIVE"));
+        String duckId = validateOkResponseAndGetDuckId(runner,
+                getDuckBodyWithIdMatcher("brown", 0.15, "wood", "quack", "ACTIVE"));
+
+        deleteDuck(runner, duckId);
     }
 }
