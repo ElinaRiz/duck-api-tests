@@ -1,6 +1,7 @@
 package autotests.tests.actionTests;
 
 import autotests.clients.actionClients.DuckQuackClient;
+import autotests.payloads.DuckQuackResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -26,8 +27,9 @@ public class DuckQuackTest extends DuckQuackClient {
 //                "\"sound\":\"quack-quack, quack-quack\"\n" +
 //                "}");
 //        BUG: сервис возвращает некорректный звук
-        validateOkResponse(runner, "{\n" +
-                "\"sound\":\"moo-moo, moo-moo\"\n" +
-                "}");
+
+        DuckQuackResponse quackResponse = new DuckQuackResponse()
+                .sound("moo-moo, moo-moo");
+        validateOkResponse(runner, quackResponse);
     }
 }
