@@ -5,7 +5,6 @@ import autotests.payloads.DuckProperties;
 import com.consol.citrus.TestCaseRunner;
 import io.qameta.allure.Step;
 
-import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 public class DuckUpdateClient extends DuckClient {
