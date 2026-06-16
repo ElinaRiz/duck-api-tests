@@ -1,6 +1,7 @@
 package autotests.tests.actionTests;
 
 import autotests.clients.actionClients.DuckQuackClient;
+import autotests.payloads.DuckProperties;
 import autotests.payloads.DuckQuackResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
@@ -15,11 +16,20 @@ import org.testng.annotations.Test;
 @Feature("Крякание уточки")
 public class DuckQuackTest extends DuckQuackClient {
 
-
     @Test(description = "Проверка того, что уточка с с нечётным id и корректным звуком крякает")
     @CitrusTest
     public void successfulQuackWithUnevenIdAndValidSound(@Optional @CitrusResource TestCaseRunner runner) {
-        duckQuack(runner, "1", "2", "2");
+        DuckProperties duck = new DuckProperties()
+                .color("yellow")
+                .height(0.03)
+                .material("rubber")
+                .sound("quack")
+                .wingsState("ACTIVE");
+
+        String duckId = createDuckInDatabase(runner, duck, false);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
+
+        duckQuack(runner, duckId, "2", "2");
         validateResponseByString(runner, HttpStatus.OK, "{\n" +
                 "\"sound\":\"quack-quack, quack-quack\"\n" +
                 "}");
@@ -28,7 +38,17 @@ public class DuckQuackTest extends DuckQuackClient {
     @Test(description = "Проверка того, что уточка с чётным id и корректным звуком крякает")
     @CitrusTest
     public void successfulQuackWithEvenIdAndValidSound(@Optional @CitrusResource TestCaseRunner runner) {
-        duckQuack(runner, "2", "2", "2");
+        DuckProperties duck = new DuckProperties()
+                .color("red")
+                .height(0.03)
+                .material("wood")
+                .sound("quack")
+                .wingsState("ACTIVE");
+
+        String duckId = createDuckInDatabase(runner, duck, true);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
+
+        duckQuack(runner, duckId, "2", "2");
 //        validateOkResponse(runner, "{\n" +
 //                "\"sound\":\"quack-quack, quack-quack\"\n" +
 //                "}");

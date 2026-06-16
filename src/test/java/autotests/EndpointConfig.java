@@ -16,7 +16,7 @@ public class EndpointConfig {
                 .build();
     }
 
-    @Bean("testDb")
+    @Bean("duckDb")
     public SingleConnectionDataSource db() {
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName("org.h2.Driver");

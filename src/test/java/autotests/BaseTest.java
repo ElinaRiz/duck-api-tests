@@ -6,7 +6,6 @@ import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,21 +21,15 @@ import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class BaseTest extends TestNGCitrusSpringSupport {
 
-    @Autowired
-    protected HttpClient duckService;
-
-    @Autowired
-    protected SingleConnectionDataSource testDb;
-
     @Step("Обновление данных в базе данных")
-    protected void updateDatabase(TestCaseRunner runner, String query) {
-        runner.$(sql(testDb)
+    protected void updateDatabase(TestCaseRunner runner, SingleConnectionDataSource db, String query) {
+        runner.$(sql(db)
                 .statement(query));
     }
 
     @Step("Извлечь переменную из базы данных")
-    protected String extractVariableFromDatabase(TestCaseRunner runner, String query, String columnName, String variableName) {
-        runner.$(query(testDb)
+    protected String extractVariableFromDatabase(TestCaseRunner runner, SingleConnectionDataSource db, String query, String columnName, String variableName) {
+        runner.$(query(db)
                 .statement(query)
                 .extract(columnName, variableName));
 
@@ -44,11 +37,12 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация переменной в базе данных")
-    protected void validateVariableInDatabase(TestCaseRunner runner, String query, String columnName, String value) {
-        runner.$(query(testDb)
+    protected void validateVariableInDatabase(TestCaseRunner runner, SingleConnectionDataSource db, String query, String columnName, String value) {
+        runner.$(query(db)
                 .statement(query)
                 .validate(columnName, value));
     }
+
 
     @Step("Восстановление исходного состояния")
     protected void executeAfterTest(TestCaseRunner runner, Runnable action) {
@@ -58,15 +52,15 @@ public class BaseTest extends TestNGCitrusSpringSupport {
 
 
     @Step("Отправка GET запроса")
-    protected void sendGetRequest(TestCaseRunner runner, String path) {
-        runner.$(http().client(duckService)
+    protected void sendGetRequest(TestCaseRunner runner, HttpClient service, String path) {
+        runner.$(http().client(service)
                 .send()
                 .get(path));
     }
 
     @Step("Отправка POST запроса")
-    protected void sendPostRequest(TestCaseRunner runner, String path, Object payload) {
-        runner.$(http().client(duckService)
+    protected void sendPostRequest(TestCaseRunner runner, HttpClient service, String path, Object payload) {
+        runner.$(http().client(service)
                 .send()
                 .post(path)
                 .message()
@@ -75,23 +69,23 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Отправка PUT запроса")
-    protected void sendPutRequest(TestCaseRunner runner, String path) {
-        runner.$(http().client(duckService)
+    protected void sendPutRequest(TestCaseRunner runner, HttpClient service, String path) {
+        runner.$(http().client(service)
                 .send()
                 .put(path));
     }
 
     @Step("Отправка DELETE запроса")
-    protected void sendDeleteMethod(TestCaseRunner runner, String path) {
-        runner.$(http().client(duckService)
+    protected void sendDeleteMethod(TestCaseRunner runner, HttpClient service, String path) {
+        runner.$(http().client(service)
                 .send()
                 .delete(path));
     }
 
 
     @Step("Валидация ответа на запрос с помощью передачи строки")
-    protected void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedResponse) {
-        runner.$(http().client(duckService)
+    protected void validateResponseByString(TestCaseRunner runner, HttpClient service, HttpStatus httpStatus, String expectedResponse) {
+        runner.$(http().client(service)
                 .receive()
                 .response(httpStatus)
                 .message()
@@ -100,8 +94,8 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью json из папки Resources")
-    protected void validateResponseByResource(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath) {
-        runner.$(http().client(duckService)
+    protected void validateResponseByResource(TestCaseRunner runner, HttpClient service, HttpStatus httpStatus, String resourcePath) {
+        runner.$(http().client(service)
                 .receive()
                 .response(httpStatus)
                 .message()
@@ -110,8 +104,8 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью json из папки Resources и получение значения параметра")
-    protected String validateResponseByResourceAndExtractVariable(TestCaseRunner runner, HttpStatus httpStatus, String resourcePath, String jsonPath, String variableName) {
-        runner.$(http().client(duckService)
+    protected String validateResponseByResourceAndExtractVariable(TestCaseRunner runner, HttpClient service, HttpStatus httpStatus, String resourcePath, String jsonPath, String variableName) {
+        runner.$(http().client(service)
                 .receive()
                 .response(httpStatus)
                 .message()
@@ -123,8 +117,8 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("Валидация ответа на запрос с помощью модели данных")
-    protected void validateResponseByPayload(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
-        runner.$(http().client(duckService)
+    protected void validateResponseByPayload(TestCaseRunner runner, HttpClient service, HttpStatus httpStatus, Object expectedPayload) {
+        runner.$(http().client(service)
                 .receive()
                 .response(httpStatus)
                 .message()
