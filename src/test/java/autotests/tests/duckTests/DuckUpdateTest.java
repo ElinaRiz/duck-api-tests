@@ -6,9 +6,14 @@ import autotests.payloads.MessageResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тесты на duck-controller")
+@Feature("Обновление уточки")
 public class DuckUpdateTest extends DuckUpdateClient {
 
     @Test(description = "Проверка изменения цвета и высоты уточки")
@@ -20,8 +25,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .material("rubber")
                 .sound("quack")
                 .wingsState("ACTIVE");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         DuckProperties updateDuck = new DuckProperties()
                 .color("green")
@@ -30,11 +34,12 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         updateDuck(runner, duckId, updateDuck);
-        validateOkResponse(runner, "{\n" +
+        validateResponse(runner, HttpStatus.OK, "{\n" +
                 "\"message\":\"Duck with id = " + duckId + " is updated\"\n" +
                 "}");
+        validateDuckInDatabase(runner, duckId, updateDuck);
 
-        deleteDuck(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка изменения цвета и звука уточки")
@@ -46,8 +51,7 @@ public class DuckUpdateTest extends DuckUpdateClient {
                 .material("rubber")
                 .sound("quack")
                 .wingsState("ACTIVE");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         DuckProperties updateDuck = new DuckProperties()
                 .color("white")
@@ -58,8 +62,9 @@ public class DuckUpdateTest extends DuckUpdateClient {
         updateDuck(runner, duckId, updateDuck);
         MessageResponse message = new MessageResponse()
                 .message("Duck with id = " + duckId + " is updated");
-        validateOkResponse(runner, message);
+        validateResponse(runner, HttpStatus.OK, message);
+        validateDuckInDatabase(runner, duckId, updateDuck);
 
-        deleteDuck(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 }

@@ -6,9 +6,14 @@ import autotests.payloads.MessageResponse;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тесты на duck-action-controller")
+@Feature("Полёт уточки")
 public class DuckFlyTest extends DuckFlyClient {
 
     @Test(description = "Проверка того, что уточка с активными крыльями полетела")
@@ -20,19 +25,18 @@ public class DuckFlyTest extends DuckFlyClient {
                 .material("rubber")
                 .sound("quack")
                 .wingsState("ACTIVE");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         duckFly(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
 //                "\"message\":\"I'm flying\"\n" +
 //                "}");
 //        BUG: сервис возвращает некорректное сообщение
-        validateOkResponse(runner, "{\n" +
+        validateResponse(runner, HttpStatus.OK, "{\n" +
                 "\"message\":\"I am flying :)\"\n" +
                 "}");
 
-        deleteDuck(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка со связанными крыльями не полетела")
@@ -44,17 +48,16 @@ public class DuckFlyTest extends DuckFlyClient {
                 .material("wood")
                 .sound("quack")
                 .wingsState("FIXED");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         duckFly(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
 //                "\"message\":\"I can't fly\"\n" +
 //                "}");
 //        BUG: сервис возвращает некорректное сообщение
-        validateOkResponseByResource(runner, "flyTest/duckFlyWithFixedWings.json");
+        validateResponseByResource(runner, HttpStatus.OK, "flyTest/duckFlyWithFixedWings.json");
 
-        deleteDuck(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с крыльями в неопределенном состоянии не полетела")
@@ -66,14 +69,13 @@ public class DuckFlyTest extends DuckFlyClient {
                 .material("wood")
                 .sound("quack")
                 .wingsState("UNDEFINED");
-        createDuck(runner, duck);
-        String duckId = getDuckIdFromResponse(runner);
+        String duckId = createDuckInDatabase(runner, duck);
 
         duckFly(runner, duckId);
         MessageResponse message = new MessageResponse()
                 .message("Wings are not detected :(");
-        validateOkResponse(runner, message);
+        validateResponse(runner, HttpStatus.OK, message);
 
-        deleteDuck(runner, duckId);
+        deleteDuckFromDatabase(runner, duckId);
     }
 }
