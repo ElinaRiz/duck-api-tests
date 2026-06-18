@@ -10,6 +10,6 @@ public class DuckQuackClient extends DuckClient {
     public void duckQuack(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         String path = String.format("/api/duck/action/quack?id=%1$s&repetitionCount=%2$s&soundCount=%3$s",
                 id, repetitionCount, soundCount);
-        sendGetMethod(runner, path);
+        sendGetRequest(runner, path);
     }
 }

@@ -26,6 +26,7 @@ public class DuckSwimTest extends DuckSwimClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         duckSwim(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
@@ -33,8 +34,6 @@ public class DuckSwimTest extends DuckSwimClient {
 //                "}");
 //        BUG: сервис возвращает 400 ошибку и некорректное сообщение
         validateResponseByResource(runner, HttpStatus.NOT_FOUND, "swimTest/duckSwimWithExistingId.json");
-
-        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с несуществующим id не поплыла")
@@ -52,6 +51,6 @@ public class DuckSwimTest extends DuckSwimClient {
         duckSwim(runner, duckId);
         MessageResponse message = new MessageResponse()
                 .message("Paws are not found ((((");
-        validateResponse(runner, HttpStatus.NOT_FOUND, message);
+        validateResponseByPayload(runner, HttpStatus.NOT_FOUND, message);
     }
 }

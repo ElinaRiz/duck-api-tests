@@ -26,17 +26,16 @@ public class DuckFlyTest extends DuckFlyClient {
                 .sound("quack")
                 .wingsState("ACTIVE");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         duckFly(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
 //                "\"message\":\"I'm flying\"\n" +
 //                "}");
 //        BUG: сервис возвращает некорректное сообщение
-        validateResponse(runner, HttpStatus.OK, "{\n" +
+        validateResponseByString(runner, HttpStatus.OK, "{\n" +
                 "\"message\":\"I am flying :)\"\n" +
                 "}");
-
-        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка со связанными крыльями не полетела")
@@ -49,6 +48,7 @@ public class DuckFlyTest extends DuckFlyClient {
                 .sound("quack")
                 .wingsState("FIXED");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         duckFly(runner, duckId);
 //        validateOkResponse(runner, "{\n" +
@@ -56,8 +56,6 @@ public class DuckFlyTest extends DuckFlyClient {
 //                "}");
 //        BUG: сервис возвращает некорректное сообщение
         validateResponseByResource(runner, HttpStatus.OK, "flyTest/duckFlyWithFixedWings.json");
-
-        deleteDuckFromDatabase(runner, duckId);
     }
 
     @Test(description = "Проверка того, что уточка с крыльями в неопределенном состоянии не полетела")
@@ -70,12 +68,11 @@ public class DuckFlyTest extends DuckFlyClient {
                 .sound("quack")
                 .wingsState("UNDEFINED");
         String duckId = createDuckInDatabase(runner, duck);
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
         duckFly(runner, duckId);
         MessageResponse message = new MessageResponse()
                 .message("Wings are not detected :(");
-        validateResponse(runner, HttpStatus.OK, message);
-
-        deleteDuckFromDatabase(runner, duckId);
+        validateResponseByPayload(runner, HttpStatus.OK, message);
     }
 }

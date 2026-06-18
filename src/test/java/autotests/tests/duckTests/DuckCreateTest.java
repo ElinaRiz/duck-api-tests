@@ -29,10 +29,10 @@ public class DuckCreateTest extends DuckCreateClient {
 //        validateOkResponse(runner,
 //                buildDuckJson("red", 0.05, "rubber", "quack", "ACTIVE"));
 //         BUG: сервис возвращает id в ответе
-        String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createRubberDuck.json");
-        validateDuckInDatabase(runner, duckId, duck);
+        String duckId = validateResponseByResourceAndExtractVariable(runner, HttpStatus.OK, "createTest/createRubberDuck.json", "$.id", "duckId");
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
-        deleteDuckFromDatabase(runner, duckId);
+        validateDuckInDatabase(runner, duckId, duck);
     }
 
     @Test(description = "Проверка создания уточки с material wood")
@@ -49,9 +49,9 @@ public class DuckCreateTest extends DuckCreateClient {
 //        validateOkResponse(runner,
 //                buildDuckJson("brown", 0.15, "wood", "quack", "ACTIVE"));
 //        BUG: сервис возвращает id в ответе
-        String duckId = validateResponseByResourceAndGetDuckId(runner, HttpStatus.OK, "createTest/createWoodDuck.json");
-        validateDuckInDatabase(runner, duckId, duck);
+        String duckId = validateResponseByResourceAndExtractVariable(runner, HttpStatus.OK, "createTest/createWoodDuck.json", "$.id", "duckId");
+        executeAfterTest(runner, () -> deleteDuckFromDatabase(runner, duckId));
 
-        deleteDuckFromDatabase(runner, duckId);
+        validateDuckInDatabase(runner, duckId, duck);
     }
 }
